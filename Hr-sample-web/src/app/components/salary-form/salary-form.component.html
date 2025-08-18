@@ -1,1 +1,31 @@
-<p>salary-form works!</p>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-form-field appearance="fill">
+    <mat-label>Employee</mat-label>
+    <mat-select formControlName="employeeId">
+      <mat-option *ngFor="let employee of employees$ | async" [value]="employee.id">
+        {{employee.firstName}} {{employee.lastName}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('employeeId').hasError('required')">Employee is required</mat-error>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>Amount</mat-label>
+    <input matInput formControlName="amount" type="number" placeholder="Enter amount">
+    <mat-error *ngIf="form.get('amount').hasError('required')">Amount is required</mat-error>
+    <mat-error *ngIf="form.get('amount').hasError('min')">Amount must be positive</mat-error>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>Start Date</mat-label>
+    <input matInput formControlName="startDate" type="date">
+    <mat-error *ngIf="form.get('startDate').hasError('required')">Start Date is required</mat-error>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>End Date</mat-label>
+    <input matInput formControlName="endDate" type="date">
+  </mat-form-field>
+  <br>
+  <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">{{ isEdit ? 'Update' : 'Create' }} Salary</button>
+</form>

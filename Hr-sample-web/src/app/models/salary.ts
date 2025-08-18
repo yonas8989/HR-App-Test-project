@@ -1,6 +1,7 @@
 export interface Salary {
   id: number;
-  employeeId: number; // Foreign key to Employee
+  employeeId: number;
   amount: number;
-  currency: string;
+  startDate: string;
+  endDate?: string;
 }

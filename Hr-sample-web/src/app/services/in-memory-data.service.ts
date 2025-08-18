@@ -17,11 +17,15 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 3, name: 'Marketing', companyId: 2, employees: [] }
     ];
     const employees: Employee[] = [
-      { id: 1, firstName: 'John', lastName: 'Doe', email: 'john.doe@techcorp.com', companyId: 1, departmentId: 1, salaries: [] },
-      { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@techcorp.com', companyId: 1, departmentId: 1, salaries: [] },
-      { id: 3, firstName: 'Bob', lastName: 'Johnson', email: 'bob.johnson@techcorp.com', companyId: 1, departmentId: 2, salaries: [] }
+      { id: 1, firstName: 'John', lastName: 'Doe', email: 'john.doe@techcorp.com', companyId: 1, departmentId: 1, salaries: [1] },
+      { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@techcorp.com', companyId: 1, departmentId: 1, salaries: [2] },
+      { id: 3, firstName: 'Bob', lastName: 'Johnson', email: 'bob.johnson@techcorp.com', companyId: 1, departmentId: 2, salaries: [3] }
     ];
-    const salaries: Salary[] = [];
+    const salaries: Salary[] = [
+      { id: 1, employeeId: 1, amount: 50000, startDate: '2025-01-01', endDate: '2025-12-31' },
+      { id: 2, employeeId: 2, amount: 60000, startDate: '2025-01-01' },
+      { id: 3, employeeId: 3, amount: 45000, startDate: '2025-01-01' }
+    ];
     const candidates: Candidate[] = [];
     return { companies, departments, employees, salaries, candidates };
   }
