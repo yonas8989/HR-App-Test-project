@@ -8,10 +8,14 @@ import { Candidate } from '../models/candidate';
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
     const companies: Company[] = [
-      { id: 1, name: 'Tech Corp', location: 'New York', departments: [] },
-      { id: 2, name: 'Innovate Inc', location: 'San Francisco', departments: [] }
+      { id: 1, name: 'Tech Corp', location: 'New York', departments: [1, 2] },
+      { id: 2, name: 'Innovate Inc', location: 'San Francisco', departments: [3] }
     ];
-    const departments: Department[] = [];
+    const departments: Department[] = [
+      { id: 1, name: 'Engineering', companyId: 1, employees: [] },
+      { id: 2, name: 'HR', companyId: 1, employees: [] },
+      { id: 3, name: 'Marketing', companyId: 2, employees: [] }
+    ];
     const employees: Employee[] = [];
     const salaries: Salary[] = [];
     const candidates: Candidate[] = [];

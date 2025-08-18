@@ -1,1 +1,19 @@
-<p>department-form works!</p>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name" placeholder="Enter department name">
+    <mat-error *ngIf="form.get('name').hasError('required')">Name is required</mat-error>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>Company</mat-label>
+    <mat-select formControlName="companyId">
+      <mat-option *ngFor="let company of companies$ | async" [value]="company.id">
+        {{company.name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('companyId').hasError('required')">Company is required</mat-error>
+  </mat-form-field>
+  <br>
+  <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">{{ isEdit ? 'Update' : 'Create' }} Department</button>
+</form>

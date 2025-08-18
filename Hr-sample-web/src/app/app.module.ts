@@ -7,12 +7,15 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './services/in-memory-data.service';
 import { CompanyListComponent } from './components/company-list/company-list.component';
 import { CompanyFormComponent } from './components/company-form/company-form.component';
+import { DepartmentListComponent } from './components/department-list/department-list.component';
+import { DepartmentFormComponent } from './components/department-form/department-form.component';
 import { HighlightRowDirective } from './directives/highlight-row.directive';
 
 @NgModule({
@@ -20,8 +23,10 @@ import { HighlightRowDirective } from './directives/highlight-row.directive';
     AppComponent,
     CompanyListComponent,
     CompanyFormComponent,
+    DepartmentListComponent,
+    DepartmentFormComponent,
     HighlightRowDirective
-    // Add other components and directives later
+    // Add other components later
   ],
   imports: [
     BrowserModule,
@@ -31,6 +36,7 @@ import { HighlightRowDirective } from './directives/highlight-row.directive';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
