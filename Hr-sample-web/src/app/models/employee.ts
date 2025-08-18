@@ -1,7 +1,9 @@
 export interface Employee {
   id: number;
-  name: string;
-  position: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  companyId: number; // Foreign key to Company
   departmentId: number; // Foreign key to Department
-  salaryId?: number; // Foreign key to Salary (one-to-one)
+  salaries?: number[]; // Array of salary IDs (relationship)
 }

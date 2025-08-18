@@ -1,1 +1,37 @@
-<p>employee-list works!</p>
+<mat-table [dataSource]="dataSource">
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+    <mat-cell *matCellDef="let employee"> {{employee.id}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="firstName">
+    <mat-header-cell *matHeaderCellDef> First Name </mat-header-cell>
+    <mat-cell *matCellDef="let employee"> {{employee.firstName}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="lastName">
+    <mat-header-cell *matHeaderCellDef> Last Name </mat-header-cell>
+    <mat-cell *matCellDef="let employee"> {{employee.lastName}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="email">
+    <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+    <mat-cell *matCellDef="let employee"> {{employee.email}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="companyName">
+    <mat-header-cell *matHeaderCellDef> Company </mat-header-cell>
+    <mat-cell *matCellDef="let employee"> {{employee.companyName}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="departmentName">
+    <mat-header-cell *matHeaderCellDef> Department </mat-header-cell>
+    <mat-cell *matCellDef="let employee"> {{employee.departmentName}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+    <mat-cell *matCellDef="let employee">
+      <button mat-button [routerLink]="['/employees/edit', employee.id]">Edit</button>
+      <button mat-button (click)="delete(employee.id)">Delete</button>
+    </mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;" appHighlightRow></mat-row>
+</mat-table>
+<div *ngIf="!dataSource.data.length">No employees found.</div>
+<button mat-raised-button [routerLink]="['/employees/create']">Add Employee</button>

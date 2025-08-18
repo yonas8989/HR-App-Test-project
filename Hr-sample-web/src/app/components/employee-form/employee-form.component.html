@@ -1,1 +1,42 @@
-<p>employee-form works!</p>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-form-field appearance="fill">
+    <mat-label>First Name</mat-label>
+    <input matInput formControlName="firstName" placeholder="Enter first name">
+    <mat-error *ngIf="form.get('firstName').hasError('required')">First Name is required</mat-error>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>Last Name</mat-label>
+    <input matInput formControlName="lastName" placeholder="Enter last name">
+    <mat-error *ngIf="form.get('lastName').hasError('required')">Last Name is required</mat-error>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" placeholder="Enter email">
+    <mat-error *ngIf="form.get('email').hasError('required')">Email is required</mat-error>
+    <mat-error *ngIf="form.get('email').hasError('email')">Invalid email format</mat-error>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>Company</mat-label>
+    <mat-select formControlName="companyId">
+      <mat-option *ngFor="let company of companies$ | async" [value]="company.id">
+        {{company.name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('companyId').hasError('required')">Company is required</mat-error>
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>Department</mat-label>
+    <mat-select formControlName="departmentId">
+      <mat-option *ngFor="let department of departments$ | async" [value]="department.id">
+        {{department.name}}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('departmentId').hasError('required')">Department is required</mat-error>
+  </mat-form-field>
+  <br>
+  <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">{{ isEdit ? 'Update' : 'Create' }} Employee</button>
+</form>

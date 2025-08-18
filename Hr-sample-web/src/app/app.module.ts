@@ -16,7 +16,10 @@ import { CompanyListComponent } from './components/company-list/company-list.com
 import { CompanyFormComponent } from './components/company-form/company-form.component';
 import { DepartmentListComponent } from './components/department-list/department-list.component';
 import { DepartmentFormComponent } from './components/department-form/department-form.component';
+import { EmployeeListComponent } from './components/employee-list/employee-list.component';
+import { EmployeeFormComponent } from './components/employee-form/employee-form.component';
 import { HighlightRowDirective } from './directives/highlight-row.directive';
+import { EmployeeService } from './services/employee.service'; // Explicit import
 
 @NgModule({
   declarations: [
@@ -25,8 +28,9 @@ import { HighlightRowDirective } from './directives/highlight-row.directive';
     CompanyFormComponent,
     DepartmentListComponent,
     DepartmentFormComponent,
+    EmployeeListComponent,
+    EmployeeFormComponent,
     HighlightRowDirective
-    // Add other components later
   ],
   imports: [
     BrowserModule,
@@ -42,7 +46,7 @@ import { HighlightRowDirective } from './directives/highlight-row.directive';
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false })
   ],
-  providers: [],
+  providers: [EmployeeService], // Explicitly provide EmployeeService
   bootstrap: [AppComponent]
 })
 export class AppModule { }
