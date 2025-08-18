@@ -8,6 +8,8 @@ import { EmployeeListComponent } from './components/employee-list/employee-list.
 import { EmployeeFormComponent } from './components/employee-form/employee-form.component';
 import { SalaryListComponent } from './components/salary-list/salary-list.component';
 import { SalaryFormComponent } from './components/salary-form/salary-form.component';
+import { CandidateListComponent } from './components/candidate-list/candidate-list.component';
+import { CandidateFormComponent } from './components/candidate-form/candidate-form.component';
 
 const routes: Routes = [
   { path: 'companies', component: CompanyListComponent },
@@ -22,6 +24,9 @@ const routes: Routes = [
   { path: 'salaries', component: SalaryListComponent },
   { path: 'salaries/create', component: SalaryFormComponent },
   { path: 'salaries/edit/:id', component: SalaryFormComponent },
+  { path: 'candidates', component: CandidateListComponent },
+  { path: 'candidates/create', component: CandidateFormComponent },
+  { path: 'candidates/edit/:id', component: CandidateFormComponent },
   { path: '', redirectTo: '/companies', pathMatch: 'full' }
 ];
 

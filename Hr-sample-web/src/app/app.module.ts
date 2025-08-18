@@ -20,9 +20,12 @@ import { EmployeeListComponent } from './components/employee-list/employee-list.
 import { EmployeeFormComponent } from './components/employee-form/employee-form.component';
 import { SalaryListComponent } from './components/salary-list/salary-list.component';
 import { SalaryFormComponent } from './components/salary-form/salary-form.component';
+import { CandidateListComponent } from './components/candidate-list/candidate-list.component';
+import { CandidateFormComponent } from './components/candidate-form/candidate-form.component';
 import { HighlightRowDirective } from './directives/highlight-row.directive';
 import { EmployeeService } from './services/employee.service';
 import { SalaryService } from './services/salary.service';
+import { CandidateService } from './services/candidate.service';
 
 @NgModule({
   declarations: [
@@ -35,6 +38,8 @@ import { SalaryService } from './services/salary.service';
     EmployeeFormComponent,
     SalaryListComponent,
     SalaryFormComponent,
+    CandidateListComponent,
+    CandidateFormComponent,
     HighlightRowDirective
   ],
   imports: [
@@ -51,7 +56,7 @@ import { SalaryService } from './services/salary.service';
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false })
   ],
-  providers: [EmployeeService, SalaryService],
+  providers: [EmployeeService, SalaryService, CandidateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
