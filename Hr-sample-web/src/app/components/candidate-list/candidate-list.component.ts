@@ -1,23 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { CandidateService } from '../../services/candidate.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { CandidateService } from '../../services/candidate.service';
 import { Candidate } from '../../models/candidate';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-candidate-list',
   templateUrl: './candidate-list.component.html',
-  styleUrls: ['./candidate-list.component.css']
+  styleUrls: ['./candidate-list.component.css'],
+  animations: [
+    trigger('tableFadeIn', [
+      state('void', style({ opacity: 0, transform: 'translateY(10px)' })),
+      state('*', style({ opacity: 1, transform: 'translateY(0)' })),
+      transition('void => *', animate('500ms ease-in'))
+    ])
+  ]
 })
 export class CandidateListComponent implements OnInit {
-  dataSource: MatTableDataSource<Candidate> = new MatTableDataSource([]); // Initialize with empty array
+  dataSource: MatTableDataSource<Candidate> = new MatTableDataSource([]);
   displayedColumns: string[] = ['id', 'firstName', 'lastName', 'email', 'phone', 'position', 'status', 'actions'];
-  isLoading = true; // Flag to control rendering
+  isLoading = true;
 
   constructor(private candidateService: CandidateService) {
     console.log('CandidateListComponent initialized');
     console.log('dataSource initialized:', this.dataSource);
-    console.log('candidateService:', this.candidateService); // Debug service injection
-    console.log('candidateService.getAll:', this.candidateService.getAll); // Debug getAll method
+    console.log('candidateService:', this.candidateService);
   }
 
   ngOnInit() {
@@ -31,7 +38,7 @@ export class CandidateListComponent implements OnInit {
     this.candidateService.getAll().subscribe(
       data => {
         console.log('Candidate data received:', data);
-        this.dataSource.data = data || []; // Ensure data is always an array
+        this.dataSource.data = data || [];
         this.isLoading = false;
         if (!data || !data.length) {
           console.warn('No candidates loaded in table');
@@ -50,7 +57,7 @@ export class CandidateListComponent implements OnInit {
     this.candidateService.delete(id).subscribe(
       () => {
         console.log('Candidate deleted:', id);
-        this.ngOnInit(); // Refresh the list
+        this.ngOnInit();
       },
       error => console.error('Error deleting candidate:', error)
     );
