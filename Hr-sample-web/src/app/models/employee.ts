@@ -7,3 +7,5 @@ export interface Employee {
   departmentId: number; // Foreign key to Department
   salaries?: number[]; // Array of salary IDs (relationship)
 }
+
+
