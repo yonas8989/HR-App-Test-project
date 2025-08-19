@@ -42,48 +42,54 @@ export class EmployeeFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.id = +this.route.snapshot.paramMap.get('id');
+    const idParam = this.route.snapshot.paramMap.get('id');
+    this.id = idParam ? +idParam : null;
     if (this.id) {
       this.isEdit = true;
-      this.employeeService.getById(this.id).subscribe(employee => {
-        if (employee) {
-          this.form.patchValue(employee);
-        } else {
-          console.error('Employee not found for ID:', this.id);
-        }
-      }, error => {
-        console.error('Error fetching employee for edit:', error);
-      });
+      this.employeeService.getById(this.id).subscribe(
+        (employee: Employee) => {
+          if (employee) {
+            this.form.patchValue({
+              firstName: employee.firstName,
+              lastName: employee.lastName,
+              email: employee.email,
+              companyId: employee.companyId,
+              departmentId: employee.departmentId
+            });
+          } else {
+            console.error('Employee not found for ID:', this.id);
+          }
+        },
+        error => console.error('Error fetching employee for edit:', error)
+      );
     }
   }
 
   submit() {
-    if (this.form.invalid) {
-      console.warn('Form is invalid');
-      return;
-    }
-    const employee: Employee = this.form.value;
-    console.log('Submitting employee:', employee); // Debug log
-    if (this.isEdit) {
-      this.employeeService.update(this.id, employee).subscribe(
+    if (this.form.valid) {
+      const employee: Employee = {
+        id: this.isEdit ? this.id : 0,
+        firstName: this.form.value.firstName,
+        lastName: this.form.value.lastName,
+        email: this.form.value.email,
+        companyId: this.form.value.companyId,
+        departmentId: this.form.value.departmentId
+      };
+      console.log('Submitting employee:', employee);
+
+      const operation = this.isEdit
+        ? this.employeeService.update(this.id, employee)
+        : this.employeeService.create(employee);
+
+      operation.subscribe(
         () => {
-          console.log('Employee updated successfully');
+          console.log(this.isEdit ? 'Employee updated' : 'Employee created');
           this.router.navigate(['/employees']);
         },
-        error => console.error('Error updating employee:', error)
+        error => console.error('Error saving employee:', error)
       );
     } else {
-      if (typeof this.employeeService.create !== 'function') {
-        console.error('employeeService.create is not a function');
-        return;
-      }
-      this.employeeService.create(employee).subscribe(
-        (response) => {
-          console.log('Employee created successfully:', response);
-          this.router.navigate(['/employees']);
-        },
-        error => console.error('Error creating employee:', error)
-      );
+      console.warn('Form is invalid');
     }
   }
 }

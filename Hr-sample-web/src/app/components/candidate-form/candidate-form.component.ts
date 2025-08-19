@@ -34,17 +34,21 @@ export class CandidateFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.id = +this.route.snapshot.paramMap.get('id');
+    const idParam = this.route.snapshot.paramMap.get('id');
+    this.id = idParam ? +idParam : null;
     if (this.id) {
       this.isEdit = true;
-      if (typeof this.candidateService.getById !== 'function') {
-        console.error('candidateService.getById is not a function');
-        return;
-      }
       this.candidateService.getById(this.id).subscribe(
-        candidate => {
+        (candidate: Candidate) => {
           if (candidate) {
-            this.form.patchValue(candidate);
+            this.form.patchValue({
+              firstName: candidate.firstName,
+              lastName: candidate.lastName,
+              email: candidate.email,
+              phone: candidate.phone,
+              position: candidate.position,
+              status: candidate.status
+            });
           } else {
             console.error('Candidate not found for ID:', this.id);
           }
@@ -55,36 +59,31 @@ export class CandidateFormComponent implements OnInit {
   }
 
   submit() {
-    if (this.form.invalid) {
-      console.warn('Form is invalid');
-      return;
-    }
-    const candidate: Candidate = this.form.value;
-    console.log('Submitting candidate:', candidate);
-    if (this.isEdit) {
-      if (typeof this.candidateService.update !== 'function') {
-        console.error('candidateService.update is not a function');
-        return;
-      }
-      this.candidateService.update(this.id, candidate).subscribe(
+    if (this.form.valid) {
+      const candidate: Candidate = {
+        id: this.isEdit ? this.id : 0,
+        firstName: this.form.value.firstName,
+        lastName: this.form.value.lastName,
+        email: this.form.value.email,
+        phone: this.form.value.phone,
+        position: this.form.value.position,
+        status: this.form.value.status
+      };
+      console.log('Submitting candidate:', candidate);
+
+      const operation = this.isEdit
+        ? this.candidateService.update(this.id, candidate)
+        : this.candidateService.create(candidate);
+
+      operation.subscribe(
         () => {
-          console.log('Candidate updated successfully');
+          console.log(this.isEdit ? 'Candidate updated' : 'Candidate created');
           this.router.navigate(['/candidates']);
         },
-        error => console.error('Error updating candidate:', error)
+        error => console.error('Error saving candidate:', error)
       );
     } else {
-      if (typeof this.candidateService.create !== 'function') {
-        console.error('candidateService.create is not a function');
-        return;
-      }
-      this.candidateService.create(candidate).subscribe(
-        response => {
-          console.log('Candidate created successfully:', response);
-          this.router.navigate(['/candidates']);
-        },
-        error => console.error('Error creating candidate:', error)
-      );
+      console.warn('Form is invalid');
     }
   }
 }

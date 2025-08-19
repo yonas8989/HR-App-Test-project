@@ -33,25 +33,48 @@ export class DepartmentFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.id = +this.route.snapshot.paramMap.get('id');
+    const idParam = this.route.snapshot.paramMap.get('id');
+    this.id = idParam ? +idParam : null;
     if (this.id) {
       this.isEdit = true;
-      this.departmentService.getById(this.id).subscribe(department => {
-        this.form.patchValue(department);
-      });
+      this.departmentService.getById(this.id).subscribe(
+        (department: Department) => {
+          if (department) {
+            this.form.patchValue({
+              name: department.name,
+              companyId: department.companyId
+            });
+          } else {
+            console.error('Department not found for ID:', this.id);
+          }
+        },
+        error => console.error('Error fetching department for edit:', error)
+      );
     }
   }
 
   submit() {
-    const department: Department = this.form.value;
-    if (this.isEdit) {
-      this.departmentService.update(this.id, department).subscribe(() => {
-        this.router.navigate(['/departments']);
-      });
+    if (this.form.valid) {
+      const department: Department = {
+        id: this.isEdit ? this.id : 0,
+        name: this.form.value.name,
+        companyId: this.form.value.companyId
+      };
+      console.log('Submitting department:', department);
+
+      const operation = this.isEdit
+        ? this.departmentService.update(this.id, department)
+        : this.departmentService.create(department);
+
+      operation.subscribe(
+        () => {
+          console.log(this.isEdit ? 'Department updated' : 'Department created');
+          this.router.navigate(['/departments']);
+        },
+        error => console.error('Error saving department:', error)
+      );
     } else {
-      this.departmentService.create(department).subscribe(() => {
-        this.router.navigate(['/departments']);
-      });
+      console.warn('Form is invalid');
     }
   }
 }
