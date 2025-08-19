@@ -25,7 +25,6 @@ import { CandidateFormComponent } from './components/candidate-form/candidate-fo
 import { HighlightRowDirective } from './directives/highlight-row.directive';
 import { EmployeeService } from './services/employee.service';
 import { SalaryService } from './services/salary.service';
-import { CandidateService } from './services/candidate.service';
 
 @NgModule({
   declarations: [
@@ -56,7 +55,7 @@ import { CandidateService } from './services/candidate.service';
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, { dataEncapsulation: false })
   ],
-  providers: [EmployeeService, SalaryService, CandidateService],
+  providers: [EmployeeService, SalaryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

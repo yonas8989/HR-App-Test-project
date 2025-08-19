@@ -1,7 +1,92 @@
+/* Table container */
 mat-table {
-  width: 100%;
-  margin-top: 20px;
+  margin: 20px 0;
+  border: 1px solid var(--accent-color);
+  animation: fadeIn 0.5s ease-in;
 }
-button {
+
+/* Table headers */
+mat-header-cell {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  font-weight: 500;
+  padding: 12px;
+}
+
+/* Table cells */
+mat-cell {
+  padding: 12px;
+  color: #333;
+}
+
+/* Row highlight (using existing highlight-row.directive.ts) */
+mat-row.appHighlightRow:hover {
+  background-color: var(--light-color);
+  transition: background-color 0.3s ease;
+}
+
+/* Actions column */
+mat-cell button {
+  margin-right: 8px;
+}
+
+/* Add button */
+button.mat-raised-button {
   margin: 10px;
+}
+
+/* Mobile-responsive table */
+@media (max-width: 600px) {
+  mat-table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  mat-header-row, mat-row {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--accent-color);
+  }
+
+  mat-header-cell, mat-cell {
+    display: block;
+    padding: 8px;
+    text-align: left;
+  }
+
+  mat-header-cell::before, mat-cell::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: var(--primary-color);
+    display: inline-block;
+    width: 40%;
+    margin-right: 10px;
+  }
+
+  mat-header-cell {
+    display: none; /* Hide header on mobile, use data-label */
+  }
+
+  mat-row {
+    margin-bottom: 10px;
+    border: 1px solid var(--light-color);
+    border-radius: 4px;
+  }
+
+  mat-cell button {
+    width: 100%;
+    margin: 5px 0;
+  }
+}
+
+/* Fade-in animation for table */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

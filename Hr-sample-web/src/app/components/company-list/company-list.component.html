@@ -1,19 +1,24 @@
-<mat-table [dataSource]="dataSource">
+<div *ngIf="isLoading">Loading companies...</div>
+<mat-table *ngIf="!isLoading" [dataSource]="dataSource" [@tableFadeIn]>
   <ng-container matColumnDef="id">
     <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
-    <mat-cell *matCellDef="let company"> {{company.id}} </mat-cell>
+    <mat-cell *matCellDef="let company" data-label="ID"> {{company.id}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="name">
     <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-    <mat-cell *matCellDef="let company"> {{company.name}} </mat-cell>
+    <mat-cell *matCellDef="let company" data-label="Name"> {{company.name}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="location">
     <mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
-    <mat-cell *matCellDef="let company"> {{company.location}} </mat-cell>
+    <mat-cell *matCellDef="let company" data-label="Location"> {{company.location}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="departments">
+    <mat-header-cell *matHeaderCellDef> Departments </mat-header-cell>
+    <mat-cell *matCellDef="let company" data-label="Departments"> {{company.departments.join(', ')}} </mat-cell>
   </ng-container>
   <ng-container matColumnDef="actions">
     <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
-    <mat-cell *matCellDef="let company">
+    <mat-cell *matCellDef="let company" data-label="Actions">
       <button mat-button [routerLink]="['/companies/edit', company.id]">Edit</button>
       <button mat-button (click)="delete(company.id)">Delete</button>
     </mat-cell>
@@ -21,4 +26,5 @@
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;" appHighlightRow></mat-row>
 </mat-table>
-<button mat-raised-button [routerLink]="['/companies/create']">Add Company</button>
+<div *ngIf="!isLoading && !dataSource.data.length">No companies found.</div>
+<button *ngIf="!isLoading" mat-raised-button [routerLink]="['/companies/create']">Add Company</button>
